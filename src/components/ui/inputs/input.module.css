@@ -1,0 +1,66 @@
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.label {
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 10px 12px;
+    border: 1px solid color-mix(in srgb, var(--color-first) 50%, var(--color-text));
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--color-text);
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+    color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+.input:hover:not(:disabled) {
+    border-color: var(--color-third);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-first);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-first) 45%, transparent);
+}
+
+.input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: color-mix(in srgb, var(--color-first) 40%, #ffffff);
+}
+
+.invalid {
+    border-color: var(--color-fourth);
+}
+
+.invalid:focus {
+    border-color: var(--color-fourth);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-fourth) 45%, transparent);
+}
+
+.error {
+    font-family: sans-serif;
+    font-size: 13px;
+    color: color-mix(in srgb, var(--color-fourth) 55%, var(--color-text));
+}

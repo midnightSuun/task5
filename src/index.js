@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router/dom";
 import { router } from "./routes";
 import { Provider } from 'react-redux';
 import { store } from "./store";
+import "./styles/palette.css";
 
 const root = document.getElementById("root");
 
