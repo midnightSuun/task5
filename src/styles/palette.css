@@ -4,6 +4,43 @@
     --color-third: #ffd3b6;
     --color-fourth: #ffaaa5;
     --color-text: #2d3748;
+
+    --peach: #f6c9a1;
+    --peach-deep: #eeb384;
+    --cream: #fff8ef;
+    --cream-2: #fffdf9;
+    --paper: #fbead6;
+    --paper-2: #f6dfc2;
+    --brown: #5a3a26;
+    --brown-soft: #8a6a52;
+    --coral: #e8734a;
+    --coral-deep: #d85f38;
+    --sage: #7fa878;
+    --sage-deep: #5f8a58;
+    --gold: #f0a93c;
+    --line: #e8a874;
+    --spine: #c47a4a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Nunito, sans-serif;
+    color: var(--brown);
+    background:
+        radial-gradient(circle at 8% 12%, rgb(255 255 255 / 0.35) 0, transparent 40%),
+        radial-gradient(circle at 92% 85%, rgb(255 255 255 / 0.25) 0, transparent 45%),
+        var(--peach);
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Baloo 2', sans-serif;
 }
 
 .first-color {

@@ -8,21 +8,22 @@ export const RecipeCard = ({ recipe, index }) => {
     return (
         <article className={styles.card}>
             <Link className={styles.link} to={`/recipes/${recipe.id}`}>
-                <div className={styles.media}>
-                    <RecipeCardImage
-                        src={recipe.image}
-                        alt={recipe.name}
-                        name={recipe.name}
-                        index={index}
-                        cookTimeMinutes={recipe.cookTimeMinutes}
-                    />
+                <RecipeCardImage
+                    src={recipe.image}
+                    alt={recipe.name}
+                    index={index}
+                />
+                <div className={styles.body}>
+                    <h3 className={styles.name}>{recipe.name}</h3>
+                    <div className={styles.metaRow}>
+                        <span className={styles.cuisine}>{recipe.cuisine}</span>
+                        <span className={styles.time}>
+                            {recipe.cookTimeMinutes}m
+                        </span>
+                        <Stars rating={recipe.rating} />
+                    </div>
+                    <Description rating={recipe.rating} />
                 </div>
-                <h2 className={styles.name}>{recipe.name}</h2>
-                <div className={styles.metaRow}>
-                    <span className={styles.cuisine}>{recipe.cuisine}</span>
-                    <Stars rating={recipe.rating} />
-                </div>
-                <Description rating={recipe.rating} />
             </Link>
         </article>
     )

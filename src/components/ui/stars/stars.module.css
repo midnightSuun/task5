@@ -8,15 +8,15 @@
 
 .gold {
     gap: 1px;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .gold .starFilled {
-    color: color-mix(in srgb, var(--color-second) 40%, var(--color-fourth));
+    color: var(--gold);
 }
 
 .gold .starEmpty {
-    color: color-mix(in srgb, var(--color-text) 25%, transparent);
+    color: #e6d3c0;
 }
 
 .light .starFilled {

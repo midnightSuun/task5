@@ -1,0 +1,85 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 28px;
+    background: var(--coral);
+    border-bottom: 4px solid var(--coral-deep);
+    box-shadow: 0 4px 0 rgb(0 0 0 / 0.06);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 0.08);
+    white-space: nowrap;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 3px solid #fff;
+    border-radius: 11px;
+    background: var(--gold);
+    font-size: 20px;
+    transform: rotate(-6deg);
+}
+
+.userPill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    padding: 5px 16px 5px 6px;
+    border: 3px solid var(--coral-deep);
+    border-radius: 999px;
+    background: var(--cream-2);
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--brown);
+    white-space: nowrap;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--sage);
+    color: #fff;
+    font-size: 14px;
+}
+
+.logout {
+    padding: 9px 16px;
+    border: 3px solid #c9821f;
+    border-radius: 999px;
+    background: var(--gold);
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #5a3a0f;
+    cursor: pointer;
+}
+
+@media (max-width: 760px) {
+    .header {
+        flex-wrap: wrap;
+    }
+}

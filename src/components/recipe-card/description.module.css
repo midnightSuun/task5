@@ -1,25 +1,13 @@
 .pointsTrack {
     overflow: hidden;
-    height: 8px;
+    height: 7px;
+    border: 1.5px solid var(--line);
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--color-first) 45%, #ffffff);
+    background: #f0ddc8;
 }
 
 .pointsFill {
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(
-        90deg,
-        var(--color-first),
-        var(--color-second),
-        var(--color-fourth)
-    );
-}
-
-.pointsMeta {
-    display: flex;
-    justify-content: space-between;
-    font-family: sans-serif;
-    font-size: 11px;
-    color: color-mix(in srgb, var(--color-text) 70%, transparent);
+    background: linear-gradient(90deg, var(--sage), var(--gold));
 }

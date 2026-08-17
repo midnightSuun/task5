@@ -1,9 +1,9 @@
-import { Link, Navigate, Outlet, useLocation } from 'react-router'
+import { Navigate, Outlet, useLocation } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../api'
 import { useGetAuthUserQuery } from '../auth-api'
 import { logOut, selectAccessToken } from '../auth-slice'
-import { Button } from './ui/button'
+import { Header } from './header'
 
 export const ProtectedRoute = () => {
     const accessToken = useSelector(selectAccessToken)
@@ -24,13 +24,7 @@ export const ProtectedRoute = () => {
 
     return (
         <div>
-            <header>
-                <Link to="/">Recipes</Link>
-                {user?.username && <span>{user.username}</span>}
-                <Button type="button" variant="secondary" size="sm" onClick={handleLogout}>
-                    Log out
-                </Button>
-            </header>
+            <Header username={user?.username} onLogout={handleLogout} />
             <Outlet />
         </div>
     )
