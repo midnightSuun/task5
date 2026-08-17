@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router'
-import { Recipes } from './pages/recipes'
-import { RecipeDetails } from './pages/recipe-details'
+import { Recipes } from './pages/recipes/recipes'
+import { RecipeDetailsPage } from './pages/recipe-details/recipe-details'
 import { SignIn } from './pages/sign-in'
 import { NotFound } from './pages/not-found'
 import { PublicRoute } from './components/public-route'
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
         Component: ProtectedRoute,
         children: [
             { path: '/', Component: Recipes },
-            { path: '/recipes/:recipeId', Component: RecipeDetails },
+            { path: '/recipes/:recipeId', Component: RecipeDetailsPage },
         ],
     },
     {

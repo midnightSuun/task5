@@ -1,0 +1,29 @@
+.stars {
+    display: flex;
+    flex-shrink: 0;
+    gap: 2px;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.gold {
+    gap: 1px;
+    font-size: 13px;
+}
+
+.gold .starFilled {
+    color: color-mix(in srgb, var(--color-second) 40%, var(--color-fourth));
+}
+
+.gold .starEmpty {
+    color: color-mix(in srgb, var(--color-text) 25%, transparent);
+}
+
+.light .starFilled {
+    color: #ffffff;
+}
+
+.light .starEmpty {
+    color: transparent;
+    -webkit-text-stroke: 1px #ffffff;
+}

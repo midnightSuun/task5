@@ -1,0 +1,44 @@
+.frame {
+    overflow: hidden;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card {
+    position: relative;
+    border-radius: 18px;
+    background-color: var(--color-second);
+}
+
+.cardImage {
+    height: 168px;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgb(255 253 244 / 0.7) 0%,
+        transparent 42%
+    );
+    pointer-events: none;
+}
+
+.details {
+    padding: 10px;
+    background-color: var(--color-second);
+    border: 2px solid color-mix(in srgb, var(--color-first) 25%, var(--color-text));
+    border-radius: 22px 26px 20px 24px;
+}
+
+.detailsImage {
+    aspect-ratio: 4 / 3;
+    border-radius: 14px 18px 12px 16px;
+    background-color: #ffffff;
+}
