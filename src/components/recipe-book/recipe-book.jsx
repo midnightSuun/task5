@@ -1,10 +1,21 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { RecipeCard } from '../recipe-card'
+import { useGetRecipesQuery } from '../../recipes-api'
+import ChevronLeftIcon from '../../assets/icons/chevron-left.svg'
+import ChevronRightIcon from '../../assets/icons/chevron-right.svg'
 import styles from './recipe-book.module.css'
 
 const RECIPES_PER_PAGE = 2
 const RECIPES_PER_SPREAD = RECIPES_PER_PAGE * 2
+const RECIPE_FIELDS = [
+    'id',
+    'name',
+    'image',
+    'cuisine',
+    'cookTimeMinutes',
+    'rating',
+]
 
 const fillPage = (items, startIndex) => {
     const cards = items.map((recipe, index) => (
@@ -29,16 +40,17 @@ const fillPage = (items, startIndex) => {
     return [...cards, ...emptySlots]
 }
 
-export const RecipeBook = ({ recipes }) => {
+export const RecipeBook = () => {
     const [spread, setSpread] = useState(0)
-    const totalSpreads = Math.max(
-        1,
-        Math.ceil(recipes.length / RECIPES_PER_SPREAD)
-    )
-
-    useEffect(() => {
-        setSpread(0)
-    }, [recipes])
+    const skip = spread * RECIPES_PER_SPREAD
+    const { data, isError, error } = useGetRecipesQuery({
+        limit: RECIPES_PER_SPREAD,
+        skip,
+        select: RECIPE_FIELDS,
+    })
+    const recipes = data?.recipes ?? []
+    const total = data?.total ?? 0
+    const totalSpreads = Math.max(1, Math.ceil(total / RECIPES_PER_SPREAD))
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -54,12 +66,8 @@ export const RecipeBook = ({ recipes }) => {
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [totalSpreads])
 
-    const startIndex = spread * RECIPES_PER_SPREAD
-    const leftItems = recipes.slice(startIndex, startIndex + RECIPES_PER_PAGE)
-    const rightItems = recipes.slice(
-        startIndex + RECIPES_PER_PAGE,
-        startIndex + RECIPES_PER_SPREAD
-    )
+    const leftItems = recipes.slice(0, RECIPES_PER_PAGE)
+    const rightItems = recipes.slice(RECIPES_PER_PAGE, RECIPES_PER_SPREAD)
 
     const handlePrev = () => {
         setSpread((current) => Math.max(0, current - 1))
@@ -73,6 +81,8 @@ export const RecipeBook = ({ recipes }) => {
         setSpread(index)
     }
 
+    if (isError) return <p>Error: {error.status}</p>
+
     return (
         <div className={styles.stage}>
             <div className={styles.book}>
@@ -84,18 +94,7 @@ export const RecipeBook = ({ recipes }) => {
                     disabled={spread === 0}
                     onClick={handlePrev}
                 >
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="22"
-                        height="22"
-                        fill="none"
-                        stroke="#fff"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>
+                    <ChevronLeftIcon />
                 </button>
                 <div
                     key={`left-${spread}`}
@@ -107,7 +106,7 @@ export const RecipeBook = ({ recipes }) => {
                 >
                     <div className={styles.pageLabel}>Page {spread * 2 + 1}</div>
                     <div className={styles.pageCards}>
-                        {fillPage(leftItems, startIndex)}
+                        {fillPage(leftItems, skip)}
                     </div>
                 </div>
                 <div
@@ -120,7 +119,7 @@ export const RecipeBook = ({ recipes }) => {
                 >
                     <div className={styles.pageLabel}>Page {spread * 2 + 2}</div>
                     <div className={styles.pageCards}>
-                        {fillPage(rightItems, startIndex + RECIPES_PER_PAGE)}
+                        {fillPage(rightItems, skip + RECIPES_PER_PAGE)}
                     </div>
                 </div>
                 <button
@@ -130,18 +129,7 @@ export const RecipeBook = ({ recipes }) => {
                     disabled={spread === totalSpreads - 1}
                     onClick={handleNext}
                 >
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="22"
-                        height="22"
-                        fill="none"
-                        stroke="#fff"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="M9 18l6-6-6-6" />
-                    </svg>
+                    <ChevronRightIcon />
                 </button>
             </div>
             <div className={styles.footer}>

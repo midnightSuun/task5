@@ -44,6 +44,18 @@ module.exports = {
         exclude: /\.module\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.svg$/i,
+        oneOf: [
+          {
+            issuer: /\.[jt]sx?$/,
+            use: ['@svgr/webpack'],
+          },
+          {
+            type: 'asset/resource',
+          },
+        ],
+      },
     ],
   },
 
