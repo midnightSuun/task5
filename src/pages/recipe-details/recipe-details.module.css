@@ -1,0 +1,8 @@
+.page {
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 48px;
+    background-color: var(--color-third);
+    min-height: calc(100vh - 80px);
+    box-sizing: border-box;
+}
