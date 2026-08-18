@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import classNames from 'classnames'
+import { useSearchParams } from 'react-router'
 import { RecipeCard } from '../recipe-card'
 import { useGetRecipesQuery } from '../../recipes-api'
+import classNames from 'classnames'
 import ChevronLeftIcon from '../../assets/icons/chevron-left.svg'
 import ChevronRightIcon from '../../assets/icons/chevron-right.svg'
 import styles from './recipe-book.module.css'
@@ -28,20 +28,27 @@ const fillPage = (items, startIndex) => {
     const emptySlots = Array.from(
         { length: RECIPES_PER_PAGE - items.length },
         (_, slot) => (
-            <div
-                key={`empty-${startIndex}-${slot}`}
-                className={styles.emptySlot}
-            >
+            <div key={`empty-${startIndex}-${slot}`} className={styles.emptySlot}>
                 end of collection
             </div>
-        )
+        ),
     )
 
     return [...cards, ...emptySlots]
 }
 
+const getPageFromSearch = (searchParams) => {
+    const pageParam = Number(searchParams.get('page'))
+
+    if (!Number.isInteger(pageParam) || pageParam < 1) return 1
+
+    return pageParam
+}
+
 export const RecipeBook = () => {
-    const [spread, setSpread] = useState(0)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const page = getPageFromSearch(searchParams)
+    const spread = page - 1
     const skip = spread * RECIPES_PER_SPREAD
     const { data, isError, error } = useGetRecipesQuery({
         limit: RECIPES_PER_SPREAD,
@@ -52,33 +59,24 @@ export const RecipeBook = () => {
     const total = data?.total ?? 0
     const totalSpreads = Math.max(1, Math.ceil(total / RECIPES_PER_SPREAD))
 
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === 'ArrowLeft') {
-                setSpread((current) => Math.max(0, current - 1))
-            }
-            if (event.key === 'ArrowRight') {
-                setSpread((current) => Math.min(totalSpreads - 1, current + 1))
-            }
-        }
-
-        window.addEventListener('keydown', handleKeyDown)
-        return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [totalSpreads])
-
     const leftItems = recipes.slice(0, RECIPES_PER_PAGE)
     const rightItems = recipes.slice(RECIPES_PER_PAGE, RECIPES_PER_SPREAD)
 
+    const handleGoToSpread = (nextSpread) => {
+        const nextPage = Math.min(totalSpreads, Math.max(1, nextSpread + 1))
+        setSearchParams({ page: String(nextPage) })
+    }
+
     const handlePrev = () => {
-        setSpread((current) => Math.max(0, current - 1))
+        handleGoToSpread(spread - 1)
     }
 
     const handleNext = () => {
-        setSpread((current) => Math.min(totalSpreads - 1, current + 1))
+        handleGoToSpread(spread + 1)
     }
 
     const handleDotClick = (index) => {
-        setSpread(index)
+        handleGoToSpread(index)
     }
 
     if (isError) return <p>Error: {error.status}</p>

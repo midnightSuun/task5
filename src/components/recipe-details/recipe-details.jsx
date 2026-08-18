@@ -10,6 +10,7 @@ export const RecipeDetails = () => {
     const { data, isLoading, isError, error } = useGetRecipeByIdQuery(params.recipeId)
 
     if (isLoading) return <p>Loading...</p>
+    
     if (isError) return <p>Error: {error.status}</p>
 
     const mealType = data.mealType?.[0] ?? data.cuisine

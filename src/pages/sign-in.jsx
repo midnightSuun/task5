@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { useLoginMutation } from '../auth-api'
-import { Button } from '../components/ui/button'
-import { Input } from '../components/ui/inputs'
+import { SignInForm } from '../components/sign-in-form'
 
 export const SignIn = () => {
     const [username, setUsername] = useState('')
@@ -45,29 +44,7 @@ export const SignIn = () => {
                 </a>
                 . For example: emilys / emilyspass
             </p>
-            <form onSubmit={handleSubmit}>
-                <Input
-                    id="username"
-                    name="username"
-                    type="text"
-                    label="Username"
-                    value={username}
-                    onChange={handleUsernameChange}
-                    required
-                />
-                <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    label="Password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    required
-                />
-                <Button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Signing in...' : 'Sign in'}
-                </Button>
-            </form>
+            <SignInForm />
             {isError && <p>Error: {error?.data?.message || error.status}</p>}
         </div>
     )
