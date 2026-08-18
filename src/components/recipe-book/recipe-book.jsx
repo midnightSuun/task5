@@ -45,15 +45,21 @@ const getPageFromSearch = (searchParams) => {
     return pageParam
 }
 
+const getQueryFromSearch = (searchParams) => {
+    return searchParams.get('q')?.trim() ?? ''
+}
+
 export const RecipeBook = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const page = getPageFromSearch(searchParams)
+    const q = getQueryFromSearch(searchParams)
     const spread = page - 1
     const skip = spread * RECIPES_PER_SPREAD
     const { data, isError, error } = useGetRecipesQuery({
         limit: RECIPES_PER_SPREAD,
         skip,
         select: RECIPE_FIELDS,
+        q,
     })
     const recipes = data?.recipes ?? []
     const total = data?.total ?? 0
@@ -64,7 +70,11 @@ export const RecipeBook = () => {
 
     const handleGoToSpread = (nextSpread) => {
         const nextPage = Math.min(totalSpreads, Math.max(1, nextSpread + 1))
-        setSearchParams({ page: String(nextPage) })
+        const nextParams = { page: String(nextPage) }
+
+        if (q) nextParams.q = q
+
+        setSearchParams(nextParams)
     }
 
     const handlePrev = () => {

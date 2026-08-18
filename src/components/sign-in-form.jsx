@@ -25,7 +25,7 @@ export const SignInForm = () => {
 
     const onSubmit = async (data) => {
         console.log(data)
-        await login({ username, password })
+        await login({ username: data.username, password: data.password })
     }
 
     return (
@@ -33,7 +33,7 @@ export const SignInForm = () => {
             <Input {...form.register('username')} label="Username" />
             <Input {...form.register('password')} label="Password" />
             <Button type="submit" disabled={isLoading}>Sign in</Button>
-            
+
             {isError && <p>Error: {error?.data?.message || error.status}</p>}
         </form>
     )
