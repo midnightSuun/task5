@@ -16,6 +16,8 @@ const defaultValues = {
 }
 
 export const SignInForm = () => {
+    const [login, { isLoading, isError, error }] = useLoginMutation()
+
     const form = useForm({
         resolver: zodResolver(schema),
         defaultValues,
@@ -30,7 +32,9 @@ export const SignInForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
             <Input {...form.register('username')} label="Username" />
             <Input {...form.register('password')} label="Password" />
-            <Button type="submit">Sign in</Button>
+            <Button type="submit" disabled={isLoading}>Sign in</Button>
+            
+            {isError && <p>Error: {error?.data?.message || error.status}</p>}
         </form>
     )
 }
