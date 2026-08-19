@@ -1,0 +1,95 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    padding: 40px 20px;
+}
+
+.card {
+    position: relative;
+    width: min(440px, 100%);
+    padding: 36px 36px 32px;
+    overflow: hidden;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 12% 8%, rgb(255 255 255 / 0.7), transparent 42%),
+        var(--cream-2);
+    box-shadow:
+        0 24px 0 -12px rgb(90 58 38 / 0.08),
+        0 22px 36px rgb(90 58 38 / 0.22);
+}
+
+.card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--spine), var(--coral));
+    content: '';
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    border: 3px solid #fff;
+    border-radius: 16px;
+    background: var(--gold);
+    font-size: 28px;
+    box-shadow: 0 4px 0 var(--coral-deep);
+    transform: rotate(-6deg);
+}
+
+.title {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    text-shadow: 2px 2px 0 rgb(255 255 255 / 0.45);
+}
+
+.hint {
+    margin: 0 0 24px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--brown-soft);
+}
+
+.hint a {
+    color: var(--coral-deep);
+    text-decoration: none;
+    border-bottom: 2px dashed var(--line);
+}
+
+.hint a:hover {
+    color: var(--coral);
+}
+
+.example {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 10px;
+    border: 2px dashed var(--line);
+    border-radius: 999px;
+    background: var(--cream);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--brown);
+}
+
+@media (max-width: 520px) {
+    .card {
+        padding: 28px 22px 24px 28px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+}

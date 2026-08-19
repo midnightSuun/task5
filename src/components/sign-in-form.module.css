@@ -1,0 +1,68 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form :global(label) {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--brown);
+}
+
+.input {
+    min-height: 46px;
+    padding: 12px 16px;
+    border: 3px solid var(--line);
+    border-radius: 14px;
+    background: var(--cream);
+    font-family: Nunito, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brown);
+}
+
+.input:hover:not(:disabled) {
+    border-color: var(--coral);
+}
+
+.input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgb(240 169 60 / 0.25);
+}
+
+.submit {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 6px;
+    border: 3px solid var(--coral-deep);
+    border-radius: 999px;
+    background: var(--coral);
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
+}
+
+.submit:hover:not(:disabled) {
+    background: var(--coral-deep);
+}
+
+.submit:active:not(:disabled) {
+    background: var(--coral-deep);
+    transform: translateY(1px);
+}
+
+.error {
+    margin: 0;
+    padding: 10px 14px;
+    border: 2.5px solid var(--color-fourth);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-fourth) 28%, #fff);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown);
+}

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Input } from './ui/inputs'
 import { Button } from './ui/button'
 import { useLoginMutation } from '../auth-api'
+import styles from './sign-in-form.module.css'
 
 const schema = z.object({
     username: z.string().min(1),
@@ -29,12 +30,35 @@ export const SignInForm = () => {
     }
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Input {...form.register('username')} label="Username" />
-            <Input {...form.register('password')} label="Password" />
-            <Button type="submit" disabled={isLoading}>Sign in</Button>
+        <form className={styles.form} onSubmit={form.handleSubmit(onSubmit)}>
+            <Input
+                {...form.register('username')}
+                className={styles.input}
+                label="Username"
+                placeholder="emilys"
+                autoComplete="username"
+            />
+            <Input
+                {...form.register('password')}
+                className={styles.input}
+                type="password"
+                label="Password"
+                placeholder="••••••••"
+                autoComplete="current-password"
+            />
+            <Button
+                className={styles.submit}
+                type="submit"
+                disabled={isLoading}
+            >
+                {isLoading ? 'Signing in…' : 'Sign in'}
+            </Button>
 
-            {isError && <p>Error: {error?.data?.message || error.status}</p>}
+            {isError && (
+                <p className={styles.error} role="alert">
+                    {error?.data?.message || error.status}
+                </p>
+            )}
         </form>
     )
 }
