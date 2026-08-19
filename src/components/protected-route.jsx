@@ -25,7 +25,9 @@ export const ProtectedRoute = () => {
     return (
         <div>
             <Header username={user?.username} onLogout={handleLogout} />
-            <Outlet />
+            <main>
+                <Outlet />
+            </main>
         </div>
     )
 }

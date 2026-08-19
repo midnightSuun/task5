@@ -1,10 +1,12 @@
 .card {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    max-width: 380px;
-    padding: 22px 22px 18px;
+    gap: 12px;
+    width: min(500px, 100%);
+    max-height: 100%;
+    min-height: 0;
+    padding: 18px 20px 14px;
+    overflow: hidden;
     background-color: var(--color-first);
     border: 3px solid color-mix(in srgb, var(--color-first) 25%, var(--color-text));
     border-radius: 34px 38px 32px 36px;
@@ -17,6 +19,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    flex-shrink: 0;
     padding: 0 6px;
 }
 
@@ -27,10 +30,21 @@
     text-transform: uppercase;
 }
 
+.photo {
+    flex-shrink: 0;
+}
+
+.photo img {
+    max-height: 168px;
+    aspect-ratio: auto;
+    object-fit: cover;
+}
+
 .titleBar {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-shrink: 0;
     gap: 12px;
     padding: 10px 16px;
     background-color: color-mix(in srgb, var(--color-first) 45%, var(--color-text));
@@ -50,6 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     gap: 10px;
     margin: 2px 0 0;
     font-size: 11px;
@@ -57,9 +72,4 @@
     text-transform: lowercase;
     text-align: center;
     color: color-mix(in srgb, var(--color-first) 20%, var(--color-text));
-}
-
-.flourish {
-    letter-spacing: -2px;
-    transform: skewX(-18deg);
 }

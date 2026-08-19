@@ -2,10 +2,6 @@ import { Link } from 'react-router'
 import styles from './header.module.css'
 
 export const Header = ({ username, onLogout }) => {
-    const handleLogout = () => {
-        onLogout()
-    }
-
     return (
         <header className={styles.header}>
             <Link className={styles.logo} to="/">
@@ -23,7 +19,7 @@ export const Header = ({ username, onLogout }) => {
             <button
                 type="button"
                 className={styles.logout}
-                onClick={handleLogout}
+                onClick={onLogout}
             >
                 Log out
             </button>

@@ -3,19 +3,13 @@ import styles from './stars.module.css'
 
 const STAR_VALUES = [1, 2, 3, 4, 5]
 
-type StarsVariant = 'gold' | 'light'
-
-export type StarsProps = {
-    rating: number
-    variant?: StarsVariant
-}
-
-export const Stars = ({ rating, variant = 'gold' }: StarsProps) => {
+export const Stars = ({ rating, variant = 'gold' }) => {
     const filledStars = Math.round(rating)
 
     return (
         <div
             className={classNames(styles.stars, styles[variant])}
+            role="img"
             aria-label={`${rating} out of 5`}
         >
             {STAR_VALUES.map((star) => (

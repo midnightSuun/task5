@@ -22,7 +22,16 @@ export const RecipeDetails = () => {
                 <span className={styles.meta}>+{data.caloriesPerServing}</span>
             </div>
 
-            <Image variant="details" src={data.image} alt={data.name} />
+            <div className={styles.photo}>
+                <Image
+                    variant="details"
+                    src={data.image}
+                    alt={data.name}
+                    width={336}
+                    height={180}
+                    decoding="async"
+                />
+            </div>
 
             <div className={styles.titleBar}>
                 <h1 className={styles.title}>{data.name}</h1>
@@ -35,9 +44,9 @@ export const RecipeDetails = () => {
             />
 
             <p className={styles.footer}>
-                <span className={styles.flourish}>///</span>
+                <span>/</span>
                 {data.difficulty} · {data.cuisine} · {data.servings} servings
-                <span className={styles.flourish}>///</span>
+                <span>/</span>
             </p>
         </article>
     )

@@ -1,19 +1,8 @@
-import { InputHTMLAttributes, useId } from 'react'
+import { useId } from 'react'
 import cn from 'classnames'
 import styles from './input.module.css'
 
-export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-    label?: string
-    error?: string
-}
-
-export const Input = ({
-    label,
-    error,
-    id,
-    className,
-    ...rest
-}: InputProps) => {
+export const Input = ({ label, error, id, className, ...rest }) => {
     const generatedId = useId()
     const inputId = id ?? generatedId
     const inputClassName = cn(styles.input, className, {

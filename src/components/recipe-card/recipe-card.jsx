@@ -14,7 +14,7 @@ export const RecipeCard = ({ recipe, index }) => {
                     index={index}
                 />
                 <div className={styles.body}>
-                    <h3 className={styles.name}>{recipe.name}</h3>
+                    <h2 className={styles.name}>{recipe.name}</h2>
                     <div className={styles.metaRow}>
                         <span className={styles.cuisine}>{recipe.cuisine}</span>
                         <span className={styles.time}>

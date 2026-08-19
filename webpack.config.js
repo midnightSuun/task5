@@ -1,5 +1,21 @@
+const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+class CopyPublicAssetsPlugin {
+  apply(compiler) {
+    compiler.hooks.afterEmit.tap('CopyPublicAssetsPlugin', (compilation) => {
+      const fromDir = path.resolve(__dirname, 'public');
+      const toDir = compilation.outputOptions.path;
+
+      for (const file of fs.readdirSync(fromDir)) {
+        if (file === 'index.html') continue;
+
+        fs.copyFileSync(path.join(fromDir, file), path.join(toDir, file));
+      }
+    });
+  }
+}
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -17,13 +33,13 @@ module.exports = (env, argv) => {
     },
 
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      extensions: ['.js', '.jsx'],
     },
 
     module: {
       rules: [
         {
-          test: /\.[jt]sx?$/,
+          test: /\.jsx?$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -37,7 +53,6 @@ module.exports = (env, argv) => {
                     development: !isProduction,
                   },
                 ],
-                '@babel/preset-typescript',
               ],
             },
           },
@@ -66,7 +81,7 @@ module.exports = (env, argv) => {
           test: /\.svg$/i,
           oneOf: [
             {
-              issuer: /\.[jt]sx?$/,
+              issuer: /\.jsx?$/,
               use: ['@svgr/webpack'],
             },
             {
@@ -81,6 +96,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './public/index.html',
       }),
+      new CopyPublicAssetsPlugin(),
     ],
 
     devServer: {
@@ -90,6 +106,6 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
     },
 
-    devtool: 'source-map',
+    devtool: isProduction ? false : 'source-map',
   };
 };

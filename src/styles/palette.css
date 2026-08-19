@@ -16,7 +16,7 @@
     --coral: #e8734a;
     --coral-deep: #d85f38;
     --sage: #7fa878;
-    --sage-deep: #5f8a58;
+    --sage-deep: #2a5a24;
     --gold: #f0a93c;
     --line: #e8a874;
     --spine: #c47a4a;
@@ -39,22 +39,7 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
     font-family: 'Baloo 2', sans-serif;
-}
-
-.first-color {
-    background: var(--color-first);
-}
-
-.second-color {
-    background: var(--color-second);
-}
-
-.third-color {
-    background: var(--color-third);
-}
-
-.fourth-color {
-    background: var(--color-fourth);
 }

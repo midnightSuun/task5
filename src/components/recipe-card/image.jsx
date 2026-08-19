@@ -5,7 +5,15 @@ export const RecipeCardImage = ({ src, alt, index }) => {
     return (
         <div className={styles.photoWrap}>
             <span className={styles.index}>#{index + 1}</span>
-            <Image variant="card" src={src} alt={alt} />
+            <Image
+                variant="card"
+                src={src}
+                alt={alt}
+                width={96}
+                height={96}
+                loading="lazy"
+                decoding="async"
+            />
         </div>
     )
 }
