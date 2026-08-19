@@ -25,8 +25,7 @@ export const SignInForm = () => {
     })
 
     const onSubmit = async (data) => {
-        console.log(data)
-        await login({ username: data.username, password: data.password })
+        await login(data)
     }
 
     return (

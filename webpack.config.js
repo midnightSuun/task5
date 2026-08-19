@@ -1,76 +1,95 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  entry: './src/index.js',
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production';
 
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.[contenthash].js',
-    publicPath: '/',
-    clean: true,
-  },
+  process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-  },
+  return {
+    entry: './src/index.js',
 
-  module: {
-    rules: [
-      {
-        test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
-      // CSS Modules: файлы вида *.module.css
-      {
-        test: /\.module\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'bundle.[contenthash].js',
+      publicPath: '/',
+      clean: true,
+    },
+
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.[jt]sx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
             options: {
-              modules: {
-                localIdentName: '[name]__[local]--[hash:base64:5]',
-                namedExport: false,
-              },
+              presets: [
+                '@babel/preset-env',
+                [
+                  '@babel/preset-react',
+                  {
+                    runtime: 'automatic',
+                    development: !isProduction,
+                  },
+                ],
+                '@babel/preset-typescript',
+              ],
             },
           },
-        ],
-      },
-      // Обычный CSS (без модулей), если понадобится
-      {
-        test: /\.css$/,
-        exclude: /\.module\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.svg$/i,
-        oneOf: [
-          {
-            issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
-          },
-          {
-            type: 'asset/resource',
-          },
-        ],
-      },
+        },
+        {
+          test: /\.module\.css$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  localIdentName: '[name]__[local]--[hash:base64:5]',
+                  namedExport: false,
+                },
+              },
+            },
+          ],
+        },
+        {
+          test: /\.css$/,
+          exclude: /\.module\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.svg$/i,
+          oneOf: [
+            {
+              issuer: /\.[jt]sx?$/,
+              use: ['@svgr/webpack'],
+            },
+            {
+              type: 'asset/resource',
+            },
+          ],
+        },
+      ],
+    },
+
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './public/index.html',
+      }),
     ],
-  },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-    }),
-  ],
+    devServer: {
+      static: path.resolve(__dirname, 'dist'),
+      port: 3000,
+      hot: true,
+      historyApiFallback: true,
+    },
 
-  devServer: {
-    static: path.resolve(__dirname, 'dist'),
-    port: 3000,
-    hot: true,
-    historyApiFallback: true,
-  },
-
-  devtool: 'source-map',
+    devtool: 'source-map',
+  };
 };
