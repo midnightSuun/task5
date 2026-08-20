@@ -9,9 +9,9 @@ export const recipesApi = api.injectEndpoints({
                     skip: String(skip),
                 })
 
-                select.forEach((field) => {
-                    params.append('select', field)
-                })
+                if (select?.length) {
+                    params.set('select', select.join(','))
+                }
 
                 if (q) {
                     params.set('q', q)

@@ -1,0 +1,19 @@
+.pageCards {
+    display: grid;
+    flex: 1;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+}
+
+.emptySlot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px dashed var(--line);
+    border-radius: 16px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown-soft);
+    opacity: 0.6;
+}

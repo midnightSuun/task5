@@ -1,41 +1,15 @@
 import { useSearchParams } from 'react-router'
-import { RecipeCard } from '../recipe-card'
 import { useGetRecipesQuery } from '../../recipes-api'
 import classNames from 'classnames'
 import ChevronLeftIcon from '../../assets/icons/chevron-left.svg'
 import ChevronRightIcon from '../../assets/icons/chevron-right.svg'
+import { CardsSpread, RECIPES_PER_SPREAD } from './cards-spread'
+import { TitleSpread } from './title-spread'
 import styles from './recipe-book.module.css'
 
-const RECIPES_PER_PAGE = 2
-const RECIPES_PER_SPREAD = RECIPES_PER_PAGE * 2
-const RECIPE_FIELDS = [
-    'id',
-    'name',
-    'image',
-    'cuisine',
-    'cookTimeMinutes',
-    'rating',
-]
-
-const fillPage = (items, startIndex) => {
-    const cards = items.map((recipe, index) => (
-        <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            index={startIndex + index}
-        />
-    ))
-    const emptySlots = Array.from(
-        { length: RECIPES_PER_PAGE - items.length },
-        (_, slot) => (
-            <div key={`empty-${startIndex}-${slot}`} className={styles.emptySlot}>
-                end of collection
-            </div>
-        ),
-    )
-
-    return [...cards, ...emptySlots]
-}
+const TITLE_SPREAD_COUNT = 1
+const RECIPE_FIELDS = ['id', 'name', 'image', 'cuisine', 'cookTimeMinutes', 'rating']
+const TOC_FIELDS = ['id', 'name']
 
 const getPageFromSearch = (searchParams) => {
     const pageParam = Number(searchParams.get('page'))
@@ -53,20 +27,37 @@ export const RecipeBook = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const page = getPageFromSearch(searchParams)
     const q = getQueryFromSearch(searchParams)
+    const isSearching = Boolean(q)
     const spread = page - 1
-    const skip = spread * RECIPES_PER_SPREAD
-    const { data, isError, error } = useGetRecipesQuery({
-        limit: RECIPES_PER_SPREAD,
-        skip,
-        select: RECIPE_FIELDS,
-        q,
-    })
+    const isTitleSpread = !isSearching && spread === 0
+    const recipeSpread = isSearching ? spread : spread - TITLE_SPREAD_COUNT
+    const skip = Math.max(0, recipeSpread) * RECIPES_PER_SPREAD
+    const { data: tocData, isError: isTocError, error: tocError } =
+        useGetRecipesQuery(
+            {
+                limit: 0,
+                skip: 0,
+                select: TOC_FIELDS,
+            },
+            { skip: isSearching },
+        )
+    const { data, isError, error } = useGetRecipesQuery(
+        {
+            limit: RECIPES_PER_SPREAD,
+            skip,
+            select: RECIPE_FIELDS,
+            q,
+        },
+        { skip: isTitleSpread },
+    )
     const recipes = data?.recipes ?? []
-    const total = data?.total ?? 0
-    const totalSpreads = Math.max(1, Math.ceil(total / RECIPES_PER_SPREAD))
-
-    const leftItems = recipes.slice(0, RECIPES_PER_PAGE)
-    const rightItems = recipes.slice(RECIPES_PER_PAGE, RECIPES_PER_SPREAD)
+    const tocRecipes = tocData?.recipes ?? []
+    const total = isSearching ? (data?.total ?? 0) : (tocData?.total ?? 0)
+    const totalRecipeSpreads = Math.max(1, Math.ceil(total / RECIPES_PER_SPREAD))
+    const totalSpreads = isSearching
+        ? totalRecipeSpreads
+        : TITLE_SPREAD_COUNT + totalRecipeSpreads
+    const recipePageNumber = Math.max(0, recipeSpread) * 2
 
     const handleGoToSpread = (nextSpread) => {
         const nextPage = Math.min(totalSpreads, Math.max(1, nextSpread + 1))
@@ -89,6 +80,7 @@ export const RecipeBook = () => {
         handleGoToSpread(index)
     }
 
+    if (isTocError) return <p>Error: {tocError.status}</p>
     if (isError) return <p>Error: {error.status}</p>
 
     return (
@@ -104,32 +96,16 @@ export const RecipeBook = () => {
                 >
                     <ChevronLeftIcon />
                 </button>
-                <div
-                    key={`left-${spread}`}
-                    className={classNames(
-                        styles.page,
-                        styles.left,
-                        styles.pageTurn
-                    )}
-                >
-                    <div className={styles.pageLabel}>Page {spread * 2 + 1}</div>
-                    <div className={styles.pageCards}>
-                        {fillPage(leftItems, skip)}
-                    </div>
-                </div>
-                <div
-                    key={`right-${spread}`}
-                    className={classNames(
-                        styles.page,
-                        styles.right,
-                        styles.pageTurn
-                    )}
-                >
-                    <div className={styles.pageLabel}>Page {spread * 2 + 2}</div>
-                    <div className={styles.pageCards}>
-                        {fillPage(rightItems, skip + RECIPES_PER_PAGE)}
-                    </div>
-                </div>
+                {isTitleSpread ? (
+                    <TitleSpread key={spread} recipes={tocRecipes} />
+                ) : (
+                    <CardsSpread
+                        key={spread}
+                        recipes={recipes}
+                        skip={skip}
+                        recipePageNumber={recipePageNumber}
+                    />
+                )}
                 <button
                     type="button"
                     className={classNames(styles.arrow, styles.arrowRight)}

@@ -53,7 +53,7 @@ export const Recipes = () => {
             </section>
             <RecipeBook />
             <p className={styles.hint}>
-                4 recipes per spread · use arrows or dots
+                title spread · 4 recipes per spread · use arrows or dots
             </p>
         </div>
     )
