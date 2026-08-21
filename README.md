@@ -4,7 +4,7 @@ SPA-каталог рецептов в виде книги: вход, поиск
 
 Данные и авторизация — [DummyJSON](https://dummyjson.com/).
 
-**Live:** [https://task5-midnightsuun.vercel.app](https://task5-b1uw1l7e8-yana-5742.vercel.app/sign-in)
+**Live:** [https://task5-yana-5742.vercel.app](https://task5-yana-5742.vercel.app)
 
 ## Функциональность
 
@@ -73,7 +73,7 @@ npm run build
 ## Деплой
 
 - репозиторий: [https://github.com/midnightSuun/task5](https://github.com/midnightSuun/task5)
-- live: [https://task5-midnightsuun.vercel.a](https://task5-b1uw1l7e8-yana-5742.vercel.app/sign-in)
+- live: [https://task5-yana-5742.vercel.app](https://task5-yana-5742.vercel.app)
 
 ## Как устроено
 
