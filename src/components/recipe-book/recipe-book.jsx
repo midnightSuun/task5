@@ -1,8 +1,11 @@
+import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 import { useGetRecipesQuery } from '../../recipes-api'
 import classNames from 'classnames'
 import ChevronLeftIcon from '../../assets/icons/chevron-left.svg'
 import ChevronRightIcon from '../../assets/icons/chevron-right.svg'
+import { StatusMessage } from '../status-message'
+import { getErrorMessage } from '../../utils/get-error-message'
 import { CardsSpread, RECIPES_PER_SPREAD } from './cards-spread'
 import { TitleSpread } from './title-spread'
 import styles from './recipe-book.module.css'
@@ -32,16 +35,27 @@ export const RecipeBook = () => {
     const isTitleSpread = !isSearching && spread === 0
     const recipeSpread = isSearching ? spread : spread - TITLE_SPREAD_COUNT
     const skip = Math.max(0, recipeSpread) * RECIPES_PER_SPREAD
-    const { data: tocData, isError: isTocError, error: tocError } =
-        useGetRecipesQuery(
-            {
-                limit: 0,
-                skip: 0,
-                select: TOC_FIELDS,
-            },
-            { skip: isSearching },
-        )
-    const { data, isError, error } = useGetRecipesQuery(
+    const {
+        data: tocData,
+        isLoading: isTocLoading,
+        isError: isTocError,
+        error: tocError,
+        refetch: refetchToc,
+    } = useGetRecipesQuery(
+        {
+            limit: 0,
+            skip: 0,
+            select: TOC_FIELDS,
+        },
+        { skip: isSearching },
+    )
+    const {
+        data,
+        isLoading: isListLoading,
+        isError,
+        error,
+        refetch: refetchList,
+    } = useGetRecipesQuery(
         {
             limit: RECIPES_PER_SPREAD,
             skip,
@@ -58,6 +72,13 @@ export const RecipeBook = () => {
         ? totalRecipeSpreads
         : TITLE_SPREAD_COUNT + totalRecipeSpreads
     const recipePageNumber = Math.max(0, recipeSpread) * 2
+    const isLoading = isSearching
+        ? isListLoading
+        : isTitleSpread
+          ? isTocLoading
+          : isTocLoading || isListLoading
+    const requestError = isSearching ? error : isTitleSpread ? tocError : error || tocError
+    const hasError = isSearching ? isError : isTitleSpread ? isTocError : isError || isTocError
 
     const handleGoToSpread = (nextSpread) => {
         const nextPage = Math.min(totalSpreads, Math.max(1, nextSpread + 1))
@@ -80,8 +101,47 @@ export const RecipeBook = () => {
         handleGoToSpread(index)
     }
 
-    if (isTocError) return <p>Error: {tocError.status}</p>
-    if (isError) return <p>Error: {error.status}</p>
+    const handleRetry = () => {
+        if (!isSearching) refetchToc()
+        if (!isTitleSpread) refetchList()
+    }
+
+    useEffect(() => {
+        if (isLoading || hasError) return
+        if (page <= totalSpreads) return
+
+        const nextParams = { page: String(totalSpreads) }
+
+        if (q) nextParams.q = q
+
+        setSearchParams(nextParams)
+    }, [hasError, isLoading, page, q, setSearchParams, totalSpreads])
+
+    if (isLoading) {
+        return <StatusMessage status="info" title="Opening the recipe book…" />
+    }
+
+    if (hasError) {
+        return (
+            <StatusMessage
+                status="error"
+                title="Could not load recipes"
+                description={getErrorMessage(requestError)}
+                actionLabel="Try again"
+                onAction={handleRetry}
+            />
+        )
+    }
+
+    if (isSearching && total === 0) {
+        return (
+            <StatusMessage
+                status="info"
+                title="No recipes found"
+                description={`Nothing matches “${q}”. Try another name.`}
+            />
+        )
+    }
 
     return (
         <div className={styles.stage}>
@@ -117,6 +177,15 @@ export const RecipeBook = () => {
                 </button>
             </div>
             <div className={styles.footer}>
+                <button
+                    type="button"
+                    className={styles.mobileArrow}
+                    aria-label="Previous spread"
+                    disabled={spread === 0}
+                    onClick={handlePrev}
+                >
+                    <ChevronLeftIcon />
+                </button>
                 <div className={styles.dots}>
                     {Array.from({ length: totalSpreads }, (_, index) => (
                         <button
@@ -126,10 +195,20 @@ export const RecipeBook = () => {
                                 [styles.dotActive]: index === spread,
                             })}
                             aria-label={`Spread ${index + 1}`}
+                            aria-current={index === spread ? 'true' : undefined}
                             onClick={() => handleDotClick(index)}
                         />
                     ))}
                 </div>
+                <button
+                    type="button"
+                    className={styles.mobileArrow}
+                    aria-label="Next spread"
+                    disabled={spread === totalSpreads - 1}
+                    onClick={handleNext}
+                >
+                    <ChevronRightIcon />
+                </button>
                 <div className={styles.pageCount}>
                     Spread {spread + 1} of {totalSpreads}
                 </div>

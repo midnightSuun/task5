@@ -1,8 +1,10 @@
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { BookPage } from './book-page'
 import styles from './title-spread.module.css'
 
 export const TitleSpread = ({ recipes }) => {
+    const location = useLocation()
+
     return (
         <>
             <BookPage side="left" label="Title">
@@ -21,6 +23,7 @@ export const TitleSpread = ({ recipes }) => {
                             <Link
                                 className={styles.tocLink}
                                 to={`/recipes/${recipe.id}`}
+                                state={{ search: location.search }}
                             >
                                 <span className={styles.tocIndex}>
                                     {String(index + 1).padStart(2, '0')}

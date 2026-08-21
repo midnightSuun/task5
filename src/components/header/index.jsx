@@ -13,7 +13,7 @@ export const Header = ({ username, onLogout }) => {
                     <span className={styles.avatar}>
                         {username.charAt(0).toUpperCase()}
                     </span>
-                    {username}
+                    <span className={styles.userName}>{username}</span>
                 </div>
             )}
             <button

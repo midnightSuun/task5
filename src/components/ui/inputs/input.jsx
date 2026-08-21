@@ -9,6 +9,8 @@ export const Input = ({ label, error, id, className, ...rest }) => {
         [styles.invalid]: Boolean(error),
     })
 
+    const errorId = `${inputId}-error`
+
     return (
         <div className={styles.field}>
             {label && (
@@ -16,8 +18,18 @@ export const Input = ({ label, error, id, className, ...rest }) => {
                     {label}
                 </label>
             )}
-            <input id={inputId} className={inputClassName} {...rest} />
-            {error && <span className={styles.error}>{error}</span>}
+            <input
+                id={inputId}
+                className={inputClassName}
+                {...rest}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? errorId : undefined}
+            />
+            {error && (
+                <span id={errorId} className={styles.error}>
+                    {error}
+                </span>
+            )}
         </div>
     )
 }

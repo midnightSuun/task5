@@ -24,6 +24,5 @@
 }
 
 .light .starEmpty {
-    color: transparent;
-    -webkit-text-stroke: 1px #ffffff;
+    color: rgb(255 255 255 / 0.35);
 }

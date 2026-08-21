@@ -39,6 +39,8 @@
 }
 
 .details {
+    width: 100%;
+    aspect-ratio: 2.3 / 1;
     padding: 10px;
     background-color: var(--color-second);
     border: 2px solid color-mix(in srgb, var(--color-first) 25%, var(--color-text));
@@ -46,7 +48,16 @@
 }
 
 .detailsImage {
-    aspect-ratio: 4 / 3;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 14px 18px 12px 16px;
-    background-color: #ffffff;
+    background-color: #d7c4b0;
+}
+
+@media (max-width: 760px) {
+    .card {
+        width: 72px;
+        height: 72px;
+    }
 }

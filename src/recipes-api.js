@@ -20,9 +20,11 @@ export const recipesApi = api.injectEndpoints({
 
                 return `recipes?${params}`
             },
+            providesTags: ['Recipes'],
         }),
         getRecipeById: builder.query({
             query: (id) => `auth/recipes/${id}`,
+            providesTags: (_result, _error, id) => [{ type: 'Recipe', id }],
         }),
     }),
 })

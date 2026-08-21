@@ -1,13 +1,19 @@
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { Stars } from '../ui/stars'
 import { Description } from './description'
 import { RecipeCardImage } from './image'
 import styles from './recipe-card.module.css'
 
 export const RecipeCard = ({ recipe, index }) => {
+    const location = useLocation()
+
     return (
         <article className={styles.card}>
-            <Link className={styles.link} to={`/recipes/${recipe.id}`}>
+            <Link
+                className={styles.link}
+                to={`/recipes/${recipe.id}`}
+                state={{ search: location.search }}
+            >
                 <RecipeCardImage
                     src={recipe.image}
                     alt={recipe.name}

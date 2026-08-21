@@ -76,22 +76,46 @@
 
 .footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: 14px;
     margin-top: 18px;
+    max-width: min(1080px, 96vw);
+}
+
+.mobileArrow {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 3px solid var(--coral-deep);
+    border-radius: 50%;
+    background: var(--coral);
+    cursor: pointer;
+}
+
+.mobileArrow:disabled {
+    opacity: 0.35;
+    pointer-events: none;
 }
 
 .dots {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 4px;
+    max-width: 100%;
 }
 
 .dot {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 44px;
+    height: 44px;
     padding: 0;
     border: 0;
     background: transparent;
@@ -133,5 +157,9 @@
     .spine,
     .arrow {
         display: none;
+    }
+
+    .mobileArrow {
+        display: flex;
     }
 }

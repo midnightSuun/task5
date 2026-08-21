@@ -31,7 +31,8 @@
 }
 
 .input::placeholder {
-    color: color-mix(in srgb, var(--color-text) 50%, transparent);
+    color: rgb(45 55 72 / 0.42);
+    font-weight: 400;
 }
 
 .input:hover:not(:disabled) {
@@ -62,5 +63,5 @@
 .error {
     font-family: sans-serif;
     font-size: 13px;
-    color: color-mix(in srgb, var(--color-fourth) 55%, var(--color-text));
+    color: #8b241c;
 }

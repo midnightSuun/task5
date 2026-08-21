@@ -12,11 +12,11 @@
     --paper: #fbead6;
     --paper-2: #f6dfc2;
     --brown: #5a3a26;
-    --brown-soft: #8a6a52;
+    --brown-soft: #6b4a36;
     --coral: #e8734a;
-    --coral-deep: #d85f38;
+    --coral-deep: #9a3412;
     --sage: #7fa878;
-    --sage-deep: #2a5a24;
+    --sage-deep: #1f4d1c;
     --gold: #f0a93c;
     --line: #e8a874;
     --spine: #c47a4a;
@@ -26,10 +26,14 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
-    font-family: Nunito, sans-serif;
+    font-family: system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
     color: var(--brown);
     background:
         radial-gradient(circle at 8% 12%, rgb(255 255 255 / 0.35) 0, transparent 40%),
@@ -37,9 +41,36 @@ body {
         var(--peach);
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -48px;
+    z-index: 100;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: var(--cream-2);
+    color: var(--brown);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    top: 12px;
+}
+
 h1,
 h2,
 h3,
 h4 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
 }

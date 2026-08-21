@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form'
 import { Input } from './ui/inputs'
 import { Button } from './ui/button'
 import { useLoginMutation } from '../auth-api'
+import { getErrorMessage } from '../utils/get-error-message'
 import styles from './sign-in-form.module.css'
 
 const schema = z.object({
-    username: z.string().min(1),
-    password: z.string().min(1),
+    username: z.string().min(1, 'Enter your username'),
+    password: z.string().min(1, 'Enter your password'),
 })
 
 const defaultValues = {
@@ -24,26 +25,32 @@ export const SignInForm = () => {
         defaultValues,
     })
 
-    const onSubmit = async (data) => {
+    const handleFormSubmit = async (data) => {
         await login(data)
     }
 
     return (
-        <form className={styles.form} onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+            className={styles.form}
+            onSubmit={form.handleSubmit(handleFormSubmit)}
+            noValidate
+        >
             <Input
                 {...form.register('username')}
                 className={styles.input}
                 label="Username"
                 placeholder="emilys"
                 autoComplete="username"
+                error={form.formState.errors.username?.message}
             />
             <Input
                 {...form.register('password')}
                 className={styles.input}
                 type="password"
                 label="Password"
-                placeholder="••••••••"
+                placeholder="emilyspass"
                 autoComplete="current-password"
+                error={form.formState.errors.password?.message}
             />
             <Button
                 className={styles.submit}
@@ -55,7 +62,7 @@ export const SignInForm = () => {
 
             {isError && (
                 <p className={styles.error} role="alert">
-                    {error?.data?.message || error.status}
+                    {getErrorMessage(error)}
                 </p>
             )}
         </form>

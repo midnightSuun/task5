@@ -2,10 +2,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100dvh - 80px);
-    max-height: calc(100dvh - 80px);
+    min-height: calc(100dvh - 80px);
     padding: 24px 32px;
-    overflow: hidden;
+    overflow: auto;
     background-color: var(--peach);
-    box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+    .page {
+        align-items: flex-start;
+        padding: 16px;
+    }
 }

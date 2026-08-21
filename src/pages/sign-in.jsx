@@ -1,5 +1,11 @@
-import { SignInForm } from '../components/sign-in-form'
+import { lazy, Suspense } from 'react'
 import styles from './sign-in.module.css'
+
+const SignInForm = lazy(() =>
+    import('../components/sign-in-form').then((module) => ({
+        default: module.SignInForm,
+    }))
+)
 
 export const SignIn = () => {
     return (
@@ -14,7 +20,7 @@ export const SignIn = () => {
                     <a
                         href="https://dummyjson.com/users"
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                     >
                         dummyjson.com/users
                     </a>
@@ -22,7 +28,13 @@ export const SignIn = () => {
                     <br />
                     <span className={styles.example}>emilys / emilyspass</span>
                 </p>
-                <SignInForm />
+                <Suspense
+                    fallback={
+                        <p className={styles.hint}>Loading sign-in form…</p>
+                    }
+                >
+                    <SignInForm />
+                </Suspense>
             </div>
         </div>
     )

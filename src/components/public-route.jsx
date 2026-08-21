@@ -10,8 +10,13 @@ export const PublicRoute = () => {
     }
 
     return (
-        <main>
-            <Outlet />
-        </main>
+        <>
+            <a className="skip-link" href="#main-content">
+                Skip to content
+            </a>
+            <main id="main-content">
+                <Outlet />
+            </main>
+        </>
     )
 }

@@ -26,6 +26,7 @@
 .search {
     display: block;
     width: min(520px, calc(100% - 48px));
+    min-height: 48px;
     margin: 18px auto 0;
     padding: 12px 18px 12px 44px;
     border: 3px solid var(--coral-deep);
@@ -41,7 +42,7 @@
 }
 
 .search::placeholder {
-    font-weight: 600;
+    font-weight: 500;
     color: #c39a80;
 }
 

@@ -24,8 +24,11 @@ export const ProtectedRoute = () => {
 
     return (
         <div>
+            <a className="skip-link" href="#main-content">
+                Skip to content
+            </a>
             <Header username={user?.username} onLogout={handleLogout} />
-            <main>
+            <main id="main-content">
                 <Outlet />
             </main>
         </div>

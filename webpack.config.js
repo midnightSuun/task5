@@ -1,3 +1,4 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -45,7 +46,12 @@ module.exports = (env, argv) => {
             loader: 'babel-loader',
             options: {
               presets: [
-                '@babel/preset-env',
+                [
+                  '@babel/preset-env',
+                  {
+                    modules: false,
+                  },
+                ],
                 [
                   '@babel/preset-react',
                   {
@@ -60,12 +66,14 @@ module.exports = (env, argv) => {
         {
           test: /\.module\.css$/,
           use: [
-            'style-loader',
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             {
               loader: 'css-loader',
               options: {
                 modules: {
-                  localIdentName: '[name]__[local]--[hash:base64:5]',
+                  localIdentName: isProduction
+                    ? '[hash:base64:6]'
+                    : '[name]__[local]--[hash:base64:5]',
                   namedExport: false,
                 },
               },
@@ -75,7 +83,10 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/,
           exclude: /\.module\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+          ],
         },
         {
           test: /\.svg$/i,
@@ -97,6 +108,9 @@ module.exports = (env, argv) => {
         template: './public/index.html',
       }),
       new CopyPublicAssetsPlugin(),
+      ...(isProduction
+        ? [new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })]
+        : []),
     ],
 
     devServer: {
@@ -104,6 +118,10 @@ module.exports = (env, argv) => {
       port: 3000,
       hot: true,
       historyApiFallback: true,
+    },
+
+    performance: {
+      hints: false,
     },
 
     devtool: isProduction ? false : 'source-map',

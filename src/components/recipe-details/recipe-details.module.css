@@ -1,8 +1,46 @@
+.stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: min(500px, 100%);
+    min-height: 0;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    gap: 4px;
+    min-height: 44px;
+    padding: 6px 16px 6px 10px;
+    border: 3px solid var(--coral-deep);
+    border-radius: 999px;
+    background: var(--coral);
+    box-shadow: 0 4px 0 rgb(0 0 0 / 0.12);
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #2c140c;
+    text-decoration: none;
+}
+
+.back:hover,
+.back:focus-visible {
+    background: var(--coral-deep);
+}
+
+.back:active {
+    box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
+    transform: translateY(3px);
+}
+
 .card {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    width: min(500px, 100%);
+    width: 100%;
     max-height: 100%;
     min-height: 0;
     padding: 18px 20px 14px;
@@ -32,12 +70,7 @@
 
 .photo {
     flex-shrink: 0;
-}
-
-.photo img {
-    max-height: 168px;
-    aspect-ratio: auto;
-    object-fit: cover;
+    width: 100%;
 }
 
 .titleBar {
@@ -47,7 +80,7 @@
     flex-shrink: 0;
     gap: 12px;
     padding: 10px 16px;
-    background-color: color-mix(in srgb, var(--color-first) 45%, var(--color-text));
+    background-color: color-mix(in srgb, var(--color-first) 16%, var(--color-text));
     border-radius: 999px;
 }
 
@@ -67,9 +100,35 @@
     flex-shrink: 0;
     gap: 10px;
     margin: 2px 0 0;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.04em;
     text-transform: lowercase;
     text-align: center;
     color: color-mix(in srgb, var(--color-first) 20%, var(--color-text));
+}
+
+@media (max-width: 760px) {
+    .stack {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .card {
+        width: 100%;
+        max-height: none;
+        padding: 14px 14px 12px;
+        border-radius: 24px;
+        box-shadow: 6px 8px 0 color-mix(in srgb, var(--color-fourth) 65%, var(--color-text));
+    }
+
+    .titleBar {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    .title {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
 }

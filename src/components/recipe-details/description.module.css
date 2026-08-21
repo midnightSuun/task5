@@ -34,3 +34,14 @@
 .steps li + li {
     margin-top: 6px;
 }
+
+@media (max-width: 760px) {
+    .body {
+        padding: 12px;
+    }
+
+    .bodyText,
+    .steps {
+        font-size: 13px;
+    }
+}

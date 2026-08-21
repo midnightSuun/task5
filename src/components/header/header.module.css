@@ -18,7 +18,7 @@
     font-family: 'Baloo 2', sans-serif;
     font-weight: 800;
     font-size: 22px;
-    color: #fff;
+    color: #2c140c;
     text-decoration: none;
     text-shadow: 0 2px 0 rgb(0 0 0 / 0.08);
     white-space: nowrap;
@@ -61,12 +61,13 @@
     height: 30px;
     border: 2px solid #fff;
     border-radius: 50%;
-    background: var(--sage);
+    background: var(--sage-deep);
     color: #fff;
     font-size: 14px;
 }
 
 .logout {
+    min-height: 44px;
     padding: 9px 16px;
     border: 3px solid #c9821f;
     border-radius: 999px;
@@ -81,5 +82,15 @@
 @media (max-width: 760px) {
     .header {
         flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .userName {
+        display: none;
     }
 }
